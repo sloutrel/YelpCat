@@ -1,0 +1,32 @@
+<% layout('layouts/boilerplate') %> 
+<div class="row">
+    <h1 class="text-center">New Adoption Location</h1>
+    <div class="col-6 offet-3">
+        <form action="/centers" method="POST" novalidate class='validate-form'>
+            <div class='mb-3'>
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="center[name]" required>
+             </div>
+             <div class='mb-3'>   
+                 <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="center[location]" required>
+            </div>
+            <div class='mb-3'>   
+                <label class="form-label" for="image">Image URL</label>
+               <input class="form-control" type="text" id="image" name="center[image]">
+            </div>
+            <div class='mb-3'>   
+                <label class="form-label" for="age">Year Established</label>
+               <input class="form-control" type="text" id="age" name="center[yearEst]" required>
+            </div>
+            <div class='mb-3'>   
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="center[description]" required></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-dark">Add Adoption Location</button>
+            </div>
+            </form>
+            <a href="/centers/">All Adoption Locations</a>
+    </div>
+</div>

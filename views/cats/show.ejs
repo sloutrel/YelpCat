@@ -1,0 +1,27 @@
+<% layout('layouts/boilerplate') %> 
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card mb-3">
+            <img src="<%=cat.image %>" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><%=cat.name%></h5>
+                <h6 class="card-title"><%=cat.headline%></h6>
+                <p class="card-text text-muted"><%=cat.location%></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><%=cat.description %></li>
+                <li class="list-group-item">Cat age: <%=cat.age %></li>
+                <li class="list-group-item">Adoption price: $<%=cat.price %> </li>
+            </ul>
+            <div class="card-body">
+                <a href="/cats/<%=cat._id %>/edit" class="card-link btn btn-light">Edit</a>
+                <form class="d-inline" action="/cats/<%=cat._id %>?_method=DELETE" method="POST"> 
+                    <button class='btn btn-secondary'>Delete</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+    </div>
+</div>

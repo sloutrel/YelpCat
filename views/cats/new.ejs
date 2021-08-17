@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %> 
+<div class="row">
+    <h1 class="text-center">New Cat</h1>
+    <div class="col-6 offet-3">
+        <form action="/cats" method="POST" novalidate class='validate-form'>
+            <div class='mb-3'>
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="cat[name]" required>
+             </div>
+             <div class='mb-3'>
+                <label class="form-label" for="headline">Attributes</label>
+                <input class="form-control" type="text" id="headline" name="cat[headline]" required>
+             </div>
+             <div class='mb-3'>   
+                 <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="cat[location]" required>
+            </div>
+            <div class='mb-3'>   
+                <label class="form-label" for="image">Image URL</label>
+               <input class="form-control" type="text" id="image" name="cat[image]" required>
+            </div>
+            <div class='mb-3'>   
+                <label class="form-label" for="age">Age</label>
+               <input class="form-control" type="text" id="age" name="cat[age]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Adoption Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input type="text" class="form-control" id='price' name="cat[price] placeholder="0.00" aria-label="Amount (to the nearest dollar)" aria-describedby="price-label" required>
+                </div>
+            </div>
+
+            <div class='mb-3'>   
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="cat[description]" required></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-dark">Add Cat</button>
+            </div>
+            </form>
+            <a href="/cats/">All Cats</a>
+    </div>
+</div>

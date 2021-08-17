@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate') %> 
+    <h1>All Locations</h1>
+    <!-- <div>
+        <a href="/cats/new">Add a Cat</a>
+    </div> -->
+            <%for (let center of centers) {%>
+                <div class="card mb-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src='<%=center.image %> ' class="img-fluid" alt="">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= center.name %></h5>
+                                <h6 class="card-title text-muted"><%= center.location %></h6>
+                    
+                                <p class="card-text"> 
+                                    <small class='text-muted'>Helping find animals their forever homes since: $<%= center.price %></small>
+                                </p>
+                                <a class='btn btn-dark' href="/cats/<%= center._id %>">View <%= center.name %></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %> 
