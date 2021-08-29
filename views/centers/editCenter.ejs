@@ -18,6 +18,14 @@
             <input class="form-control" type="text" id="age" name="center[yearEst]" value ="<%= center.yearEst %>" required>
         </div>
         <div class='mb-3'>   
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" type="email" id="email" name="center[email]" value="<%=center.email %>" required>
+       </div>
+       <div class='mb-3'>   
+            <label class="form-label" for="telephone">Phone</label>
+            <input class="form-control" type="telephone" id="telephone" name="center[telephone]" value="<%=center.phone %>" required>
+        </div>
+        <div class='mb-3'>   
             <label class="form-label" for="image">Image URL</label>
             <input class="form-control" type="text" id="image" name="center[image]" value="<%=center.image%>" >
         </div>

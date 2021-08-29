@@ -1,0 +1,29 @@
+<% layout('layouts/boilerplate') %> 
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card mb-3">
+            <img src="<%=animal.image %>" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title"><%=animal.name%></h5>
+                <h6 class="card-title"><%=animal.headline%></h6>
+                <p class="card-text text-muted"><%=animal.location%></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><%=animal.description %></li>
+                <li class="list-group-item"><%=animal.species %> - <%=animal.breed%></li>
+                <li class="list-group-item">Animal age: <%=animal.age %></li>
+                <li class="list-group-item">Adoption center name: <%=animal.center.name %></li>
+                <li class="list-group-item">Adoption price: $<%=animal.price %> </li>
+            </ul>
+            <div class="card-body">
+                <a href="/animals/<%=animal._id %>/edit" class="card-link btn btn-light">Edit</a>
+                <form class="d-inline" action="/animals/<%=animal._id %>?_method=DELETE" method="POST"> 
+                    <button class='btn btn-secondary'>Delete</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+    </div>
+</div>
