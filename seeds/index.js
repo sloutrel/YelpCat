@@ -36,9 +36,18 @@ const seedDB = async () => {
       headline: `${sample(descriptors)} ${sample(colors)} ${sample(
         personalities
       )} ${sample(animals)}`,
-      image: `https://source.unsplash.com/collection/7469319`,
       description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum animi similique velit ratione vitae amet tempore ex accusamus optio ab fugiat, blanditiis explicabo neque. Nemo corrupti sapiente expedita animi Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur pariatur ad, nemo exercitationem obcaecati quos expedita error totam porro ex deleniti corrupti repellat assumenda ea fuga facilis ut aspernatur veritatis.`,
       price,
+      images: [
+        {
+          url: "https://res.cloudinary.com/dzqcxevcq/image/upload/v1630281184/YelpCat/uxupkvrlzxpqk2a6xvza.jpg",
+          filename: "YelpCat/uxupkvrlzxpqk2a6xvza",
+        },
+        {
+          url: "https://res.cloudinary.com/dzqcxevcq/image/upload/v1630281184/YelpCat/la9t5iavdriffzrmafeg.jpg",
+          filename: "YelpCat/la9t5iavdriffzrmafeg",
+        },
+      ],
     });
     await animal.save();
   }

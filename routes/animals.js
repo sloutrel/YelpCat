@@ -1,20 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const catchAsync = require("../utils/catchAsync");
-const Animal = require("../models/animal");
-const { isLoggedIn } = require("../middleware");
+const catchAsync = require('../utils/catchAsync');
+const Animal = require('../models/animal');
+const { isLoggedIn } = require('../middleware');
 
 router.get(
-  "/",
+  '/',
   catchAsync(async (req, res) => {
     const animals = await Animal.find({});
-    res.render("animals/index", { animals });
+    res.render('animals/index', { animals });
   })
 );
 
-router.get("/new", (req, res) => {
-  res.render("animals/new");
-});
+// router.get('/new', (req, res) => {
+//   res.render('animals/new');
+// });
 
 // router.post(
 //   "/",
@@ -28,54 +28,53 @@ router.get("/new", (req, res) => {
 // );
 
 router.get(
-  "/:id",
+  '/:id',
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const animal = await Animal.findById(id).populate({
-      path: "center",
-      populate: { path: "name" },
+      path: 'center',
+      populate: { path: 'name' },
     });
 
     if (!animal) {
-      req.flash("error", "Animal does not exist");
-      return res.redirect("/animals");
+      req.flash('error', 'Animal does not exist');
+      return res.redirect('/animals');
     }
-    console.log(`og animal--- ${animal}`);
-    res.render("animals/show", { animal });
+    res.render('animals/show', { animal });
   })
 );
 
 router.get(
-  "/:id/edit",
+  '/:id/edit',
   catchAsync(async (req, res) => {
     const animal = await Animal.findById(req.params.id);
     if (!animal) {
-      req.flash("error", "Animal does not exist");
-      return res.redirect("/animals");
+      req.flash('error', 'Animal does not exist');
+      return res.redirect('/animals');
     }
-    res.render("animals/edit", { animal });
+    res.render('animals/edit', { animal });
   })
 );
 
 router.put(
-  "/:id",
+  '/:id',
   isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const animal = await Animal.findByIdAndUpdate(id, { ...req.body.animal });
-    req.flash("success", "Successfully updated animal!");
+    req.flash('success', 'Successfully updated animal!');
     res.redirect(`/animals/${animal._id}`);
   })
 );
 
 router.delete(
-  "/:id",
+  '/:id',
   isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Animal.findByIdAndDelete(id);
-    req.flash("success", "Animal successfully deleted!");
-    res.redirect("/animals");
+    req.flash('success', 'Animal successfully deleted!');
+    res.redirect('/animals');
   })
 );
 

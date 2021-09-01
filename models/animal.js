@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AnimalSchema = new Schema({
@@ -7,16 +7,26 @@ const AnimalSchema = new Schema({
   age: Number,
   price: Number,
   description: String,
-  location: String,
-  image: String,
+  location: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Center',
+    },
+  ],
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
   center: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Center",
+      ref: 'Center',
     },
   ],
   species: String,
   breed: String,
 });
 
-module.exports = mongoose.model("Animal", AnimalSchema);
+module.exports = mongoose.model('Animal', AnimalSchema);

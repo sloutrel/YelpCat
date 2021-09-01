@@ -1,5 +1,5 @@
-const Review = require("../models/review");
-const Center = require("../models/center");
+const Review = require('../models/review');
+const Center = require('../models/center');
 
 module.exports.createReview = async (req, res) => {
   const center = await Center.findById(req.params.id);
@@ -8,7 +8,7 @@ module.exports.createReview = async (req, res) => {
   center.reviews.push(review);
   await review.save();
   await center.save();
-  req.flash("success", "New review successfully added!");
+  req.flash('success', 'New review successfully added!');
   res.redirect(`/centers/${center._id}`);
 };
 
@@ -17,6 +17,6 @@ module.exports.deleteReview = async (req, res) => {
   const { id, reviewId } = req.params;
   await Center.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
   await Review.findByIdAndDelete(reviewId);
-  req.flash("success", "Review successfully deleted!");
+  req.flash('success', 'Review successfully deleted!');
   res.redirect(`/centers/${center._id}`);
 };

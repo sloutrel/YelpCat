@@ -1,25 +1,25 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const users = require("../controllers/users");
-const catchAsync = require("../utils/catchAsync");
-const passport = require("passport");
+const users = require('../controllers/users');
+const catchAsync = require('../utils/catchAsync');
+const passport = require('passport');
 
 router
-  .route("/register")
+  .route('/register')
   .get(users.renderRegister)
   .post(catchAsync(users.registerNewUser));
 
 router
-  .route("/login")
+  .route('/login')
   .get(users.renderLogin)
   .post(
-    passport.authenticate("local", {
+    passport.authenticate('local', {
       failureFlash: true,
-      failureRedirect: "/login",
+      failureRedirect: '/login',
     }),
     users.loginUser
   );
 
-router.get("/logout", users.logoutUser);
+router.get('/logout', users.logoutUser);
 
 module.exports = router;

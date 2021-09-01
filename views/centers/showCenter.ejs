@@ -1,9 +1,31 @@
 <% layout('layouts/boilerplate') %> 
 <link rel="stylesheet" href="/stylesheets/stars.css">
+
+
 <div class="row">
     <div class="col-6">
+        
+        <div id="centerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <% center.images.forEach((img, i)=>{ %>
+                <div class="carousel-item <%= i===0? "active" : ""%>">
+                    <img src="<%=img.url%>" class="d-block w-100" alt="...">
+                </div>
+                <% }) %> 
+            </div>
+            <% if(center.images.length >1){ %>
+            <button class="carousel-control-prev" type="button" data-bs-target="#centerCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#centerCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+            <% } %> 
+          </div>
+        
         <div class="card mb-3">
-            <img src="<%=center.image %>" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title"><%=center.name%></h5>
                 <p class="card-text text-muted"><%=center.location%></p>
@@ -37,12 +59,9 @@
      <% } %> 
     </div>
     <div class="col-6">
+        <div id='map' class="center-map"></div>
         <% if(currentUser){ %> 
         <form class="mb-3 validate-form" action="/centers/<%=center._id %>/reviews" method="POST" novalidate> 
-            <!-- <div class="mb-3">
-                <label class="form-label" for="rating">Rating</label>
-                <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
-            </div> -->
             <div class="mb-3">
             <fieldset class="starability-basic">
                 <h3><legend>Leave a review </legend></h3>
@@ -89,3 +108,10 @@
         </div> 
     <% } %> 
 </div>
+
+<script>
+    const mapToken = "<%-process.env.MAPBOX_TOKEN %>";
+    const center = <%-JSON.stringify(center) %>;
+</script>
+
+<script src="/js/showPageMap.js"></script>
