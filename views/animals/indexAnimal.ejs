@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') %> 
+
+<% if(animals.length <1){ %> 
+    <h5 class='vh-100 text-center'>All of our animals have been found their forever homes! Check back again.</h5>
+    <% }else{ %> 
+<%for (let animal of animals) {%> 
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <% if(center.images.length) { %> 
+                    <img src='<%=center.images[0].url %>' class="img-fluid" alt="">
+                    <% }else{ %> 
+                        <img src='https://images.unsplash.com/photo-1513245543132-31f507417b26?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=375&q=80' class="img-fluid" alt="">
+                    <% } %> 
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= animal.name %></h5>
+                    <h6 class="card-title"><%= animal.description %></h6>
+        
+                    <p class="card-text"> 
+                        <small class='text-muted'>Adoption price: $<%= animal.price %></small>
+                        <br>
+                        <small class="text-muted"><%= animal.location %></small>
+                    </p>
+                    <a class='btn btn-dark' href="/centers/<%= center._id %>/animals/<%= animal._id %>">View <%= animal.title %></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% }} %> 

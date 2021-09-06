@@ -13,8 +13,8 @@ module.exports.createReview = async (req, res) => {
 };
 
 module.exports.deleteReview = async (req, res) => {
-  const center = await Center.findById(req.params.id);
   const { id, reviewId } = req.params;
+  const center = await Center.findById(id);
   await Center.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
   await Review.findByIdAndDelete(reviewId);
   req.flash('success', 'Review successfully deleted!');

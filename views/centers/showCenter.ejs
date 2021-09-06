@@ -1,7 +1,6 @@
 <% layout('layouts/boilerplate') %> 
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
-
 <div class="row">
     <div class="col-6">
         
@@ -31,7 +30,7 @@
                 <p class="card-text text-muted"><%=center.location%></p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><%=center.description %></li>
+                <li id="description" class="list-group-item overflow-auto"><%=center.description %></li>
             </ul>
             <% if(currentUser && center.author.equals(currentUser._id)) {%> 
             <div class="card-body">
@@ -43,23 +42,33 @@
             <% } %> 
             <div class="card-footer text-muted">
                Helping animals find their forever homes since: <%=center.yearEst %> 
-               <p>Author: <%=center.author.username %> </p>
             </div>
         </div>
-        <% if(currentUser){ %> 
+     
         <div>
+            <% if(currentUser && center.author.equals(currentUser._id)){ %> 
             <a href="/centers/<%=center._id %>/animals/new">Add Animal</a>
+            <% } %> 
             <h2>Available Animals</h2>
-            <ul>
+            
                 <% for(let animal of center.animals) {%> 
-                    <li><a href="/animals/<%=animal._id %> "><%=animal.name %> animal</a></li>
-                    <% } %> 
-            </ul>
+                        <div class="card mb-3">
+                            <div class="row">
+                                    <% if(center.images.length) { %> 
+                                        <img src='<%=center.images[0].url %>' class="img-fluid card-img-top" alt="">
+                                    <% }else{ %> 
+                                        <i class="fas fa-paw card-img-top" alt=""></i>
+                                    <% } %> 
+                                <a class="card-text" href="/centers/<%=center._id %>/animals/<%=animal._id %> "><%=animal.name %> - <%=animal.breed %> </a>
+                            </div>
+                        </div>
+                <% } %> 
+            
         </div>
-     <% } %> 
+     
     </div>
     <div class="col-6">
-        <div id='map' class="center-map"></div>
+        <div id='map' class="center-map mb-3"></div> 
         <% if(currentUser){ %> 
         <form class="mb-3 validate-form" action="/centers/<%=center._id %>/reviews" method="POST" novalidate> 
             <div class="mb-3">
@@ -83,9 +92,13 @@
                 <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
             </div>
             
-            <button class="btn btn-info">Add review</button>
+            <button class="btn btn-info">Add review</button> 
+           
         </form>
-        <% } %> 
+             <% }else{ %>
+                <a class="btn btn-info mb-3" href="/login">Login to leave a review</a>
+            <% } %> 
+
         <% for(let review of center.reviews) {%> 
             <div class="card mb-3">
                 <div class="card-body">

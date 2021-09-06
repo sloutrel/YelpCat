@@ -14,23 +14,6 @@ module.exports.renderNewForm = (req, res) => {
   res.render('centers/newCenter');
 };
 
-// module.exports.createAnimal = async (req, res) => {
-//   const { id } = req.params;
-//   const center = await Center.findById(id);
-//   res.render('animals/new', { id, center });
-// };
-
-// module.exports.showAnimal = async (req, res) => {
-//   const center = await Center.findById(req.params.id);
-//   const animal = new Animal(req.body.animal);
-//   center.animals.push(animal);
-//   animal.center = center;
-//   await center.save();
-//   await animal.save();
-//   req.flash('success', 'New animal successfully added!');
-//   res.redirect(`/centers/${center._id}`);
-// };
-
 module.exports.showCenter = async (req, res) => {
   const center = await Center.findById(req.params.id)
     .populate({ path: 'reviews', populate: { path: 'author' } })
@@ -50,13 +33,12 @@ module.exports.createCenter = async (req, res, next) => {
       limit: 1,
     })
     .send();
-  // res.send(geoData.body.features[0].geometry.coordinates);
   const center = new Center(req.body.center);
   center.geometry = geoData.body.features[0].geometry;
   center.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   center.author = req.user._id;
   await center.save();
-  console.log(center);
+  console.log(center.geometry);
   req.flash('success', 'New center successfully added!');
   res.redirect(`/centers/${center._id}`);
 };
@@ -70,7 +52,7 @@ module.exports.renderEditForm = async (req, res) => {
   res.render('centers/editCenter', { center });
 };
 
-module.exports.updateCampground = async (req, res) => {
+module.exports.updateCenter = async (req, res) => {
   const { id } = req.params;
   console.log(req.body);
   const center = await Center.findByIdAndUpdate(id, { ...req.body.center });
@@ -97,4 +79,14 @@ module.exports.deleteCenter = async (req, res) => {
   await Center.findByIdAndDelete(id);
   req.flash('success', 'Center successfully deleted!');
   res.redirect('/centers');
+};
+
+module.exports.animalIndex = async (req, res) => {
+  const { id } = req.params.id;
+  const center = await Center.find({});
+  const animals = await Animal.find({});
+
+  console.log(center);
+  console.log(animals);
+  res.render('animals/index', { animals, center });
 };

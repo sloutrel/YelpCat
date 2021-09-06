@@ -1,32 +1,53 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const AnimalSchema = new Schema({
-  headline: String,
-  name: String,
-  age: Number,
-  price: Number,
-  description: String,
-  location: [
-    {
+const opts = { toJSON: { virtuals: true } };
+
+const AnimalSchema = new Schema(
+  {
+    // headline: String,
+    name: String,
+    url: String,
+    age: Number,
+    price: Number,
+    description: String,
+    location: {
       type: Schema.Types.ObjectId,
       ref: 'Center',
     },
-  ],
-  images: [
-    {
-      url: String,
-      filename: String,
+    geometry: {
+      type: {
+        type: String,
+        enum: ['Point'],
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
     },
-  ],
-  center: [
-    {
+    images: [
+      {
+        url: String,
+        filename: String,
+      },
+    ],
+    center: {
       type: Schema.Types.ObjectId,
       ref: 'Center',
     },
-  ],
-  species: String,
-  breed: String,
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    species: String,
+    breed: String,
+  },
+  opts
+);
+
+AnimalSchema.virtual('properties.popUpMarkup').get(function () {
+  return `<strong><a href="${this.url}">${this.name} - ${this.breed}</a></strong>`;
 });
 
 module.exports = mongoose.model('Animal', AnimalSchema);

@@ -1,0 +1,70 @@
+<% layout('layouts/boilerplate') %> 
+
+<div class="row vh-100">
+    <div class="col-6">
+        <div id="centerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <% animal.images.forEach((img, i)=>{ %>
+                <div class="carousel-item <%= i===0? "active" : ""%>">
+                    <img src="<%=img.url%>" class="d-block w-100" alt="...">
+                </div>
+                <% }) %> 
+            </div>
+            <% if(animal.images.length >1){ %>
+            <button class="carousel-control-prev" type="button" data-bs-target="#centerCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#centerCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+            <% } %> 
+          </div>
+        <!-- add age, price, species, breed, center name/link -->
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><%=animal.name%></h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><%=animal.species %> <br> Breed: <%=animal.breed %></li>
+                <li class="list-group-item">Age: <%=animal.age %></li>
+                <li class="list-group-item">Adoption cost: $<%=animal.age %></li>
+            </ul>
+            <div class="card-body">
+                <p id="description" class="card-text overflow-auto"><%=animal.description %></p>
+            <% if(currentUser && center.author.equals(currentUser._id)) {%> 
+                <a href="/centers/<%=center._id %>/animals/<%=animal._id %>/edit" class="card-link btn btn-light">Edit</a>
+                <form class="d-inline" action="/centers/<%=center._id %>/animals/<%=animal._id %>?_method=DELETE" method="POST"> 
+                    <button class='btn btn-secondary'>Delete</button>
+                </form>
+            <% } %> 
+
+            </div>
+
+            <div class="card-footer text-muted">
+                <p class="card-text">Adopt now from: <a href="/centers/<%=center._id %>"><%=animal.center.name%></a></p>
+            </div>
+        </div> 
+    </div>   
+    <div class="col-6">
+        <div class="row mb-3">
+            <div id='map' class="center-map"></div>
+        </div>
+        <div class="row mb-3">
+            <div class="d-grid gap-2 d-me-block mx-auto">
+                <a class='btn btn-outline-dark text-center' href="/centers/<%=center._id %>/animals">See all <%=center.name %>'s animals</a>
+                <a class='btn btn-outline-secondary text-center' href="/animals">See all adoptable animals</a>
+           </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const mapToken = "<%-process.env.MAPBOX_TOKEN %>";
+    const center = <%-JSON.stringify(center) %>;
+    const animal = <%-JSON.stringify(animal) %>;
+</script>
+
+<script src="/js/showAnimalPageMap.js"></script>

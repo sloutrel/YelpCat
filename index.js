@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const ejsMate = require('ejs-mate');
 const mongoose = require('mongoose');
 const ExpressError = require('./utils/ExpressErrors');
@@ -18,11 +19,11 @@ const helmet = require('helmet');
 
 const centerRoutes = require('./routes/centers');
 const animalRoutes = require('./routes/animals');
-// const centerAnimalRoutes = require('./routes/centerAnimals');
+const centerAnimalRoutes = require('./routes/centerAnimals');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
-
-mongoose.connect('mongodb://localhost:27017/yelp-cat', {
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-cat';
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -49,10 +50,20 @@ app.use(
     replaceWith: '_',
   })
 );
+const secret = process.env.SECRET || 'meowcret';
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  secret,
+  touchAfter: 24 * 60 * 60,
+});
+store.on('error', function (e) {
+  console.log('SESSION STORE ERROR', e);
+});
 
 const sessionConfig = {
+  store,
   name: 'session',
-  secret: 'meowcret',
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -68,7 +79,7 @@ app.use(flash());
 app.use(helmet());
 
 const scriptSrcUrls = [
-  // 'https://stackpath.bootstrapcdn.com',
+  'https://fonts.googleapis.com',
   'https://api.tiles.mapbox.com',
   'https://api.mapbox.com',
   'https://kit.fontawesome.com',
@@ -78,7 +89,6 @@ const scriptSrcUrls = [
 const styleSrcUrls = [
   'https://kit-free.fontawesome.com',
   'https://cdn.jsdelivr.net',
-  // 'https://stackpath.bootstrapcdn.com',
   'https://api.mapbox.com',
   'https://api.tiles.mapbox.com',
   'https://fonts.googleapis.com',
@@ -88,8 +98,9 @@ const connectSrcUrls = [
   'https://api.mapbox.com',
   'https://*.tiles.mapbox.com',
   'https://events.mapbox.com',
+  'https://fonts.googleapis.com',
 ];
-const fontSrcUrls = [];
+const fontSrcUrls = ['https://fonts.googleapis.com'];
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -127,7 +138,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/centers', centerRoutes);
-// app.use('/centers/:id/animals', centerAnimalRoutes);
+app.use('/centers/:id/animals', centerAnimalRoutes);
 app.use('/animals', animalRoutes);
 app.use('/centers/:id/reviews', reviewRoutes);
 app.use('/', userRoutes);

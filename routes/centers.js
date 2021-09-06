@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const centers = require('../controllers/centers');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateCenter } = require('../middleware');
@@ -27,7 +27,7 @@ router
     isAuthor,
     upload.array('image'),
     validateCenter,
-    catchAsync(centers.updateCampground)
+    catchAsync(centers.updateCenter)
   )
   .delete(isLoggedIn, isAuthor, catchAsync(centers.deleteCenter));
 
@@ -37,5 +37,6 @@ router.get(
   isAuthor,
   catchAsync(centers.renderEditForm)
 );
+router.get('/animals', catchAsync(centers.animalIndex));
 
 module.exports = router;

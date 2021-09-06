@@ -1,0 +1,54 @@
+<% layout('layouts/boilerplate') %> 
+<div class="row">
+   
+    <div class="col-md-6 offset-md-3">
+        <div class="card shadow"> 
+            <h1 class="text-center card-title">New Animal for Adoption</h1>
+            <div class="card-body">
+        <form action="/centers/<%=center._id %>/animals" method="POST" novalidate class="validate-form" enctype="multipart/form-data">
+          <div class='mb-3'>
+            <label class="form-label" for="name">Animal Name</label>
+            <input class="form-control" type="text" id="name" name="animal[name]" autofocus required>
+         </div>
+         <div class='mb-3'>   
+             <label class="form-label" for="species">Species</label>
+            <input class="form-control" type="text" id="species" name="animal[species]" required>
+        </div>
+         <div class='mb-3'>   
+             <label class="form-label" for="breed">Breed</label>
+            <input class="form-control" type="breed" id="breed" name="animal[breed]" required>
+        </div>
+   
+        <div class='mb-3'>   
+            <label class="form-label" for="age">Age</label>
+           <input class="form-control" type="text" id="age" name="animal[age]" required>
+        </div>
+        <div class='mb-3'>   
+          <label class="form-label" for="price">Rehoming Cost</label>
+          <div class="input-group">
+            <div class="input-group-text">$</div>
+          
+         <input class="form-control" type="price" id="price" name="animal[price]" required>
+         <!-- <input class="form-control" type="price" id="price" name="animal[location]" hidden value="<%=center.location %> " required> -->
+     </div>
+     </div>
+     <div class='mb-3'>   
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control" type="text" id="description" name="animal[description]" required></textarea>
+    </div>
+
+          <div>
+              <label class="form-label" for="images">Upload Images</label>
+              <div class="input-group input-group-md mb-3">
+                  <input type="file" class="form-control" id="images" name="image" multiple >
+              </div>
+          </div>
+            <div class="mb-3">
+                <button class="btn btn-dark">Add Animal</button>
+            </div>
+            </form>
+            <a href="/centers/<%=center._id %>/animals">All Adoptable Animals for this Location</a>
+            </div>
+            </div>
+    </div>
+</div>
