@@ -17,7 +17,7 @@
             </ul>
             <div class="card-body">
                 <a href="/animals/<%=animal._id %>/edit" class="card-link btn btn-light">Edit</a>
-                <form class="d-inline" action="/animals/<%=animal._id %>?_method=DELETE" method="POST"> 
+                <form class="d-inline" action="/centers/<%= center._id %>/animals/<%= animal._id %>?_method=DELETE" method="POST"> 
                     <button class='btn btn-secondary'>Delete</button>
                 </form>
             </div>

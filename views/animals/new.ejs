@@ -2,7 +2,7 @@
 <div class="row">
     <h1 class="text-center">New Animal at <%=center.name %> </h1>
     <div class="col-6 offet-3">
-        <form action="/centers/<%=id %>/animals" method="POST" novalidate class='validate-form'>
+        <form action="/centers/<%= center._id %>/animals" method="POST" novalidate class='validate-form'>
             <div class='mb-3'>
                 <label class="form-label" for="name">Name</label>
                 <input class="form-control" type="text" id="name" name="animal[name]" required>
@@ -47,6 +47,6 @@
                 <button class="btn btn-dark">Add Animal</button>
             </div>
             </form>
-            <a href="/animals/">All Animals</a>
+            <a href="/centers/<%= center._id %>/animals/">All Animals</a>
     </div>
 </div>

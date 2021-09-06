@@ -1,15 +1,36 @@
 <% layout('layouts/boilerplate') %> 
 <link rel="stylesheet" href="/stylesheets/stars.css">
+
 <div class="row">
     <div class="col-6">
+        
+        <div id="centerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <% center.images.forEach((img, i)=>{ %>
+                <div class="carousel-item <%= i===0? "active" : ""%>">
+                    <img src="<%=img.url%>" class="d-block w-100" alt="...">
+                </div>
+                <% }) %> 
+            </div>
+            <% if(center.images.length >1){ %>
+            <button class="carousel-control-prev" type="button" data-bs-target="#centerCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#centerCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+            <% } %> 
+          </div>
+        
         <div class="card mb-3">
-            <img src="<%=center.image %>" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title"><%=center.name%></h5>
                 <p class="card-text text-muted"><%=center.location%></p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><%=center.description %></li>
+                <li id="description" class="list-group-item overflow-auto"><%=center.description %></li>
             </ul>
             <% if(currentUser && center.author.equals(currentUser._id)) {%> 
             <div class="card-body">
@@ -21,28 +42,35 @@
             <% } %> 
             <div class="card-footer text-muted">
                Helping animals find their forever homes since: <%=center.yearEst %> 
-               <p>Author: <%=center.author.username %> </p>
             </div>
         </div>
-        <% if(currentUser){ %> 
+     
         <div>
+            <% if(currentUser && center.author.equals(currentUser._id)){ %> 
             <a href="/centers/<%=center._id %>/animals/new">Add Animal</a>
+            <% } %> 
             <h2>Available Animals</h2>
-            <ul>
+            
                 <% for(let animal of center.animals) {%> 
-                    <li><a href="/animals/<%=animal._id %> "><%=animal.name %> animal</a></li>
-                    <% } %> 
-            </ul>
+                        <div class="card mb-3">
+                            <div class="row">
+                                    <% if(center.images.length) { %> 
+                                        <img src='<%=center.images[0].url %>' class="img-fluid card-img-top" alt="">
+                                    <% }else{ %> 
+                                        <i class="fas fa-paw card-img-top" alt=""></i>
+                                    <% } %> 
+                                <a class="card-text" href="/centers/<%=center._id %>/animals/<%=animal._id %> "><%=animal.name %> - <%=animal.breed %> </a>
+                            </div>
+                        </div>
+                <% } %> 
+            
         </div>
-     <% } %> 
+     
     </div>
     <div class="col-6">
+        <div id='map' class="center-map mb-3"></div> 
         <% if(currentUser){ %> 
         <form class="mb-3 validate-form" action="/centers/<%=center._id %>/reviews" method="POST" novalidate> 
-            <!-- <div class="mb-3">
-                <label class="form-label" for="rating">Rating</label>
-                <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
-            </div> -->
             <div class="mb-3">
             <fieldset class="starability-basic">
                 <h3><legend>Leave a review </legend></h3>
@@ -64,9 +92,13 @@
                 <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
             </div>
             
-            <button class="btn btn-info">Add review</button>
+            <button class="btn btn-info">Add review</button> 
+           
         </form>
-        <% } %> 
+             <% }else{ %>
+                <a class="btn btn-info mb-3" href="/login">Login to leave a review</a>
+            <% } %> 
+
         <% for(let review of center.reviews) {%> 
             <div class="card mb-3">
                 <div class="card-body">
@@ -89,3 +121,10 @@
         </div> 
     <% } %> 
 </div>
+
+<script>
+    const mapToken = "<%-process.env.MAPBOX_TOKEN %>";
+    const center = <%-JSON.stringify(center) %>;
+</script>
+
+<script src="/js/showPageMap.js"></script>
