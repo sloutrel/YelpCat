@@ -54,8 +54,8 @@
                 <% for(let animal of center.animals) {%> 
                         <div class="card mb-3">
                             <div class="row">
-                                    <% if(center.images.length) { %> 
-                                        <img src='<%=center.images[0].url %>' class="img-fluid card-img-top" alt="">
+                                    <% if(animal.images.length) { %> 
+                                        <img src='<%=animal.images[0].url %>' class="img-fluid card-img-top" alt="">
                                     <% }else{ %> 
                                         <i class="fas fa-paw card-img-top" alt=""></i>
                                     <% } %> 
